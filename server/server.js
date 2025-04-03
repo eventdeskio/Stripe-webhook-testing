@@ -8,7 +8,7 @@ const app = express();
 
 // Security middleware
 app.use(helmet()); // Sets various HTTP headers for security
-app.use(express.json()); // Parse JSON request bodies
+// app.use(express.json()); // Parse JSON request bodies
 
 // Configure CORS to only allow requests from your Angular app
 const corsOptions = {
@@ -21,7 +21,7 @@ app.use(cors(corsOptions));
 app.get('/test', async (req, res) => {
   console.log("in------------------")
   return res.status(200).json({ message: "success" }); 
-});
+},express.json());
 
 
 // Create a PaymentIntent
@@ -50,7 +50,7 @@ app.post('/api/create-payment-intent', async (req, res) => {
     console.error('Error creating payment intent:', error);
     res.status(500).json({ error: 'Failed to create payment' });
   }
-});
+},express.json());
 
 // Webhook to handle Stripe events
 app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, res) => {

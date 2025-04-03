@@ -1,0 +1,7 @@
+stripe-frontend\node_modules
+stripe-frontend\.vscode
+stripe-frontend\.angular
+server/node_modules
+server/.env
+server/package-lock.json
+stripe-frontend/dist

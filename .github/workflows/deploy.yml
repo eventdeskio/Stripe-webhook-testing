@@ -60,24 +60,24 @@ jobs:
         # Push all images defined in your docker-compose.yml to Docker Hub
         docker-compose -f docker-compose.yml push
   # Trigger-Deployement:
-    needs: Test-build-and-push
-    runs-on: ubuntu-latest
-    steps:
-      - name: Trigger Frontend Deployment
-        run: |
-          response=$(curl -X POST "https://dokploy.eventdesk.io/api/application.deploy" \
-          -H "Authorization: Bearer ${{secrets.DOKPLOY_TOKEN}}" \
-          -H "Content-Type: application/json" \
-          -d '{
-            "applicationId": "${{secrets.FRONTEND_DEV_APPLICATION_ID}}"
-          }')
-          echo "FRONTEND HTTP Response: $response"
-      - name: Trigger Backend Deployment
-        run: |
-          reload_response=$(curl -X POST "https://dokploy.eventdesk.io/api/application.deploy" \
-          -H "Authorization: Bearer ${{secrets.DOKPLOY_TOKEN}}" \
-          -H "Content-Type: application/json" \
-          -d '{
-            "applicationId": "${{secrets.BACKEND_DEV_APPLICATION_ID}}"
-          }')
-          echo "Reload HTTP Status Code: $reload_response"
+    # needs: Test-build-and-push
+    # runs-on: ubuntu-latest
+    # steps:
+    #   - name: Trigger Frontend Deployment
+    #     run: |
+    #       response=$(curl -X POST "https://dokploy.eventdesk.io/api/application.deploy" \
+    #       -H "Authorization: Bearer ${{secrets.DOKPLOY_TOKEN}}" \
+    #       -H "Content-Type: application/json" \
+    #       -d '{
+    #         "applicationId": "${{secrets.FRONTEND_DEV_APPLICATION_ID}}"
+    #       }')
+    #       echo "FRONTEND HTTP Response: $response"
+    #   - name: Trigger Backend Deployment
+    #     run: |
+    #       reload_response=$(curl -X POST "https://dokploy.eventdesk.io/api/application.deploy" \
+    #       -H "Authorization: Bearer ${{secrets.DOKPLOY_TOKEN}}" \
+    #       -H "Content-Type: application/json" \
+    #       -d '{
+    #         "applicationId": "${{secrets.BACKEND_DEV_APPLICATION_ID}}"
+    #       }')
+    #       echo "Reload HTTP Status Code: $reload_response"

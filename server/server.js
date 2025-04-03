@@ -18,14 +18,14 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-app.get('/test', async (req, res) => {
+app.get('/test', express.json() ,async (req, res) => {
   console.log("in------------------")
   return res.status(200).json({ message: "success" }); 
-},express.json());
+});
 
 
 // Create a PaymentIntent
-app.post('/api/create-payment-intent', async (req, res) => {
+app.post('/api/create-payment-intent',express.json(), async (req, res) => {
   try {
     // Validate the request
     const { amount, currency = 'usd', metadata = {} } = req.body;
@@ -50,7 +50,7 @@ app.post('/api/create-payment-intent', async (req, res) => {
     console.error('Error creating payment intent:', error);
     res.status(500).json({ error: 'Failed to create payment' });
   }
-},express.json());
+});
 
 // Webhook to handle Stripe events
 app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, res) => {

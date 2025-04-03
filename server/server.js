@@ -18,9 +18,11 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-app.get('/test' , async(req,res)=>{
-  res.send(200).json({"message":"success"})
-})
+app.get('/test', async (req, res) => {
+  console.log("in------------------")
+  return res.status(200).json({ message: "success" }); 
+});
+
 
 // Create a PaymentIntent
 app.post('/api/create-payment-intent', async (req, res) => {
@@ -53,7 +55,7 @@ app.post('/api/create-payment-intent', async (req, res) => {
 // Webhook to handle Stripe events
 app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
   const signature = req.headers['stripe-signature'];
-  
+  console.log(signature  )
   try {
     // Verify webhook signature
     const event = stripe.webhooks.constructEvent(
@@ -61,7 +63,17 @@ app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, 
       signature,
       process.env.STRIPE_WEBHOOK_SECRET
     );
-    
+    try{
+      console.log("***********************************************************************************")
+      console.log(event)
+      console.log(JSON.stringify(event))
+      console.log("***********************************************************************************")
+
+    }
+
+    catch(e){
+      console.log(e)
+    }
     // Handle specific events
     switch (event.type) {
       case 'payment_intent.succeeded':
@@ -88,6 +100,8 @@ async function handleSuccessfulPayment(paymentIntent) {
   // 1. Update order status in your database
   // 2. Send confirmation email
   // 3. Trigger fulfillment process
+  console.log("in------handleSuccessfulPayment------------",paymentIntent)
+
   console.log('Processing payment:', paymentIntent.id);
   
   // Example: update order in database

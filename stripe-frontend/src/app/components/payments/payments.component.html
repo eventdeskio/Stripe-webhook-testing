@@ -1,0 +1,57 @@
+<!-- src/app/components/payment/payment.component.html -->
+<div class="payment-container">
+    <div *ngIf="success" class="success-message">
+      <h2>Payment Successful!</h2>
+      <p>Your payment has been processed successfully.</p>
+      <button (click)="router.navigate(['/'])">Return to Home</button>
+    </div>
+    
+    <div *ngIf="!success">
+      <h2>Secure Payment</h2>
+      
+      <form [formGroup]="paymentForm" (ngSubmit)="submitPayment()">
+        <!-- Amount input -->
+        <div class="form-group">
+          <label for="amount">Amount ($)</label>
+          <input 
+            type="number" 
+            id="amount" 
+            formControlName="amount" 
+            class="form-control"
+            [class.is-invalid]="paymentForm.get('amount')?.invalid && paymentForm.get('amount')?.touched"
+          >
+          <div *ngIf="paymentForm.get('amount')?.invalid && paymentForm.get('amount')?.touched" class="invalid-feedback">
+            Amount is required and must be greater than 0.
+          </div>
+        </div>
+        
+        <!-- Initialize payment button -->
+        <button 
+          type="button" 
+          (click)="initializePayment()" 
+          [disabled]="loading || stripeElement !== null" 
+          class="btn btn-secondary"
+        >
+          Initialize Payment
+        </button>
+        
+        <!-- Payment element container -->
+        <div class="payment-element-container" #paymentElement></div>
+        
+        <!-- Submit payment button -->
+        <button 
+          type="submit" 
+          [disabled]="loading || !stripeElement || paymentForm.invalid" 
+          class="btn btn-primary"
+        >
+          <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          {{ loading ? 'Processing...' : 'Pay Now' }}
+        </button>
+        
+        <!-- Error message -->
+        <div *ngIf="error" class="alert alert-danger mt-3">
+          {{ error }}
+        </div>
+      </form>
+    </div>
+  </div>

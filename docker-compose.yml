@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend  
+    image: rajaramachandran/eventdesk:Stripe_test_backend
+  frontend:
+    build:
+      context: ./frontend 
+    image: rajaramachandran/eventdesk:Stripe_test_frontend
